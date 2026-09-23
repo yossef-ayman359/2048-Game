@@ -1,15 +1,28 @@
-const grid = [
+let grid = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0]
 ]
+let gridHistory = [], historyIndex = -1;
 
-export function getGrid() {
+export function getGrid() {       // used by app (render grid)
     return grid;
 }
 
-let score = 0, bestScore = localStorage.getItem('bestScore') || 0;
+let score = 0, bestScore = Number(localStorage.getItem('bestScore')) || 0;
+
+// ـــــــــــــــــــــــــــــــــــــــــــــــ Set up game ـــــــــــــــــــــــــــــــــــــــــــــــ
+function setup() {
+    score = 0;
+    setRandomCell(2, true);
+    saveState();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setup();
+});
+
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ test cases ـــــــــــــــــــــــــــــــــــــــــــــــ
 const testCases = [
@@ -79,8 +92,8 @@ function unitTest(callback, expected, mode) {
 }
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ end move or game ـــــــــــــــــــــــــــــــــــــــــــــــ
-function setRandomCell() {
-    const emptyCells = [];
+function setRandomCell(num = 1, isInit = false) {   
+    let emptyCells = [];
 
     for (let r = 0; r < 4; ++r) {
         for (let c = 0; c < 4; ++c) {
@@ -90,19 +103,47 @@ function setRandomCell() {
         }
     }
 
-    if (emptyCells.length === 0) endGame();
+    if (emptyCells.length === 0) {
+        return;
+    }
 
-    const randomIndex = Math.floor(Math.random() * emptyCells.length);
-    const { row, col } = emptyCells[randomIndex];
-    grid[row][col] = Math.random() < 0.9 ? 2 : 4;
-
-    return grid[row][col];
-} setRandomCell();
+    while (num-- && emptyCells.length > 0) {   
+        const randomIndex = Math.floor(Math.random() * emptyCells.length);
+        const { row, col } = emptyCells[randomIndex];
+        grid[row][col] = isInit ? 2 : (Math.random() < 0.9 ? 2 : 4);
+        emptyCells.splice(randomIndex, 1);
+    }
+}
 
 export function endGame() {            // used by user (reset game)
     grid.forEach(row => row.fill(0));
-    updateScoreBoard(0);
+    score = 0;
     localStorage.setItem('bestScore', bestScore)
+}
+
+function isWin() {
+    for (let row = 0; row < 4; ++row) {
+        for (let col = 0; col < 4; ++col) {
+            if (grid[row][col] === 2048)
+                return true;
+        }
+    }
+    return false;
+}
+
+function isGameOver() {
+    for (let row = 0; row < 4; ++row) {
+        for (let col = 0; col < 4; ++col) {
+            if (grid[row][col] === 0) {
+                return false;
+            } else if (col < 3 && grid[row][col] === grid[row][col + 1]) {
+                return false;
+            } else if (row < 3 && grid[row][col] === grid[row + 1][col]) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ update score ـــــــــــــــــــــــــــــــــــــــــــــــ
@@ -112,7 +153,42 @@ function updateScoreBoard(bouns) {
         bestScore = score;
 }
 
+// ـــــــــــــــــــــــــــــــــــــــــــــــ Undo, Redo ـــــــــــــــــــــــــــــــــــــــــــــــ
+function saveState() {
+    gridHistory = gridHistory.slice(0, historyIndex + 1);
+    gridHistory.push(grid.map(row => [...row]));
+    historyIndex = gridHistory.length - 1;
+}
+
+export function undo() {       // used by user (undo Button)
+    if (historyIndex > 0)
+        grid = gridHistory[--historyIndex].map(row => [...row]);
+}
+
+export function redo() {       // used by user (redo Button)
+    if (historyIndex < gridHistory.length - 1)
+        grid = gridHistory[++historyIndex].map(row => [...row]);
+}
+
 // ـــــــــــــــــــــــــــــــــــــــــــــــ move directions ـــــــــــــــــــــــــــــــــــــــــــــــ
+function handleMove(moveFunction) {
+    const prevGrid = JSON.stringify(grid);
+
+    moveFunction();
+
+    // check if game state is change
+    if (prevGrid !== JSON.stringify(grid)) {
+        setRandomCell();
+        saveState();
+
+        if (isWin()) {
+            alert('You Win🎉');
+        } else if (isGameOver()) {
+            alert('Game Over😢');
+        }
+    }
+}
+
 function moveArrowRight(row, isTest = false) {    
     row = row.filter(v => v !== 0);
     
@@ -155,72 +231,72 @@ function moveArrowLeft(row, isTest = false) {
 unitTest(moveArrowLeft, expectedLeft, 'Left');
 
 export function moveLeftAll() {       // used by user (arrow left)
-    for (let row = 0; row < 4; ++row) {
-        grid[row] = moveArrowLeft(grid[row]);
-    }
-
-    setRandomCell();
+    handleMove(() => {
+        for (let row = 0; row < 4; ++row) {
+            grid[row] = moveArrowLeft(grid[row]);
+        }
+    });
 }
 
 export function moveRightAll() {       // used by user (arrow right)
-    for (let row = 0; row < 4; ++row) {
-        grid[row] = moveArrowRight(grid[row]);
-    }
-
-    setRandomCell();
+    handleMove(() => {
+        for (let row = 0; row < 4; ++row) {
+            grid[row] = moveArrowRight(grid[row]);
+        }
+    });
 }
 
 export function moveUpAll() {       // used by user (arrow up)
-    for (let col = 0; col < 4; ++col) {
-        let oneCol = []
-        for (let row = 0; row < 4; ++row) {
-            oneCol.push(grid[row][col]);
+    handleMove(() => {
+        for (let col = 0; col < 4; ++col) {
+            let oneCol = [];
+            for (let row = 0; row < 4; ++row) {
+                oneCol.push(grid[row][col]);
+            }
+
+            const movedCol = moveArrowLeft(oneCol);
+
+            for (let row = 0; row < 4; ++row) {
+                grid[row][col] = movedCol[row];
+            }
         }
-
-        const movedCol = moveArrowLeft(oneCol);
-
-        for (let row = 0; row < 4; ++row) {
-            grid[row][col] = movedCol[row];
-        }
-    }
-
-    setRandomCell();
+    });
 }
 
 export function moveDownAll() {       // used by user (arrow down)
-    for (let col = 0; col < 4; ++col) {
-        let oneCol = []
-        for (let row = 0; row < 4; ++row) {
-            oneCol.push(grid[row][col]);
+    handleMove(() => {
+        for (let col = 0; col < 4; ++col) {
+            let oneCol = []
+            for (let row = 0; row < 4; ++row) {
+                oneCol.push(grid[row][col]);
+            }
+
+            const movedCol = moveArrowRight(oneCol);
+
+            for (let row = 0; row < 4; ++row) {
+                grid[row][col] = movedCol[row];
+            }
         }
-
-        const movedCol = moveArrowRight(oneCol);
-
-        for (let row = 0; row < 4; ++row) {
-            grid[row][col] = movedCol[row];
-        }
-    }
-
-    setRandomCell();
+    });
 }
 
-console.log('Score: ', score, ' Best: ', bestScore);
+console.log('Score: ', score, ' Best: ', bestScore, '\tinit');
 console.table(grid);
+
 moveUpAll();
-
-console.log('Score: ', score, ' Best: ', bestScore);
+console.log('Score: ', score, ' Best: ', bestScore, '\tUP');
 console.table(grid);
+
 moveRightAll();
-
-console.log('Score: ', score, ' Best: ', bestScore);
+console.log('Score: ', score, ' Best: ', bestScore, '\tRIGHT');
 console.table(grid);
+
 moveDownAll();
-
-console.log('Score: ', score, ' Best: ', bestScore);
+console.log('Score: ', score, ' Best: ', bestScore, '\tDOWN');
 console.table(grid);
-moveLeftAll();
 
-console.log('Score: ', score, ' Best: ', bestScore);
+moveLeftAll();
+console.log('Score: ', score, ' Best: ', bestScore, '\tLEFT');
 console.table(grid);
 
 /*
@@ -228,4 +304,3 @@ console.table(grid);
     left:   [4, 2, 0, 0] ✔✔
     Right:  [0, 0, 2, 4] ✔✔
 */
-
