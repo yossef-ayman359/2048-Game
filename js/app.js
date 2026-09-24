@@ -1,4 +1,4 @@
-import {getGrid , endGame , moveLeftAll , moveRightAll , moveUpAll , moveDownAll , getScore , getBestScore} from "./game.js";
+import {getGrid , endGame , moveLeftAll , moveRightAll , moveUpAll , moveDownAll , getScore , getBestScore, setup} from "./game.js";
 let upBtn = document.getElementById("btn-up");
 let rightBtn = document.getElementById("btn-right");
 let leftBtn = document.getElementById("btn-left");
@@ -46,7 +46,7 @@ downtBtn.addEventListener("click" , () =>{
 });
 restartBtn.addEventListener("click" , () =>{
     endGame();
-    window.location.reload();
+    setup();
     render();
 });
 rulesBtn.addEventListener("click" , () =>{

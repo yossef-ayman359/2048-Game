@@ -21,7 +21,7 @@ export function getBestScore() {
     return bestScore;
 }
 // ـــــــــــــــــــــــــــــــــــــــــــــــ Set up game ـــــــــــــــــــــــــــــــــــــــــــــــ
-function setup() {
+export function setup() {
     score = 0;
     setRandomCell(2, true);
     saveState();
