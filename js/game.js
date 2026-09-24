@@ -12,6 +12,14 @@ export function getGrid() {       // used by app (render grid)
 
 let score = 0, bestScore = Number(localStorage.getItem('bestScore')) || 0;
 
+export function getScore() {
+    return score;
+}
+
+
+export function getBestScore() {
+    return bestScore;
+}
 // ـــــــــــــــــــــــــــــــــــــــــــــــ Set up game ـــــــــــــــــــــــــــــــــــــــــــــــ
 function setup() {
     score = 0;
