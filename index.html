@@ -108,78 +108,57 @@
 
         <footer class="w-full flex flex-col items-center justify-center text-[11px] text-slate-300 font-mono tracking-wider mt-5 gap-1 border-t border-slate-800/80 pt-3">
             <div class="flex items-center gap-1.5 text-cyan-300 font-bold">
-                <span>UI & Layout:</span>
-                <span class="text-pink-400">Mariam Khaled</span>
+                <span>UI &amp; Layout:</span>
+                <a href="https://www.linkedin.com/in/mariam-khaled-63a866391" target="_blank" rel="noopener noreferrer" class="text-pink-400 hover:underline">Mariam Khaled</a>
             </div>
             <div class="text-[10px] text-slate-300">
-                Logic & JS Devs: <span class="text-sky-400 font-bold">Yousef Ayman</span> & <span class="text-emerald-400 font-bold">Khaled Ashraf</span>
+                Logic &amp; JS Devs: 
+                <a href="https://www.linkedin.com/in/yossef-ayman-mohamed" target="_blank" rel="noopener noreferrer" class="text-sky-400 font-bold hover:underline">Yousef Ayman</a> 
+                &amp; 
+                <a href="https://www.linkedin.com/in/khaled-ashraf-6b2b57417" target="_blank" rel="noopener noreferrer" class="text-emerald-400 font-bold hover:underline">Khaled Ashraf</a>
             </div>
         </footer>
 
     </div>
 
     <div id="rules-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center z-50 p-4 transition-all duration-300">
-        <div class="glass-panel p-5 rounded-2xl border-2 border-cyan-500/60 bg-slate-950/95 max-w-xs w-full text-white shadow-[0_0_30px_rgba(6,182,212,0.4)] relative max-h-[90vh] overflow-y-auto">
+        <div class="glass-panel p-6 rounded-2xl border-2 border-cyan-500/60 bg-slate-950/95 max-w-sm w-full text-white shadow-[0_0_30px_rgba(6,182,212,0.4)] relative">
 
-            <button id="close-rules-btn" onclick="closeRules()" class="absolute top-3 right-3 text-slate-400 hover:text-cyan-400 transition-colors">
+            <button id="close-rules-btn" onclick="closeRules()" class="absolute top-4 right-4 text-slate-400 hover:text-cyan-400 transition-colors">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
 
-            <div class="space-y-2 mb-4 mt-2">
-                
-                <a href="#" class="block p-2.5 rounded-xl bg-cyan-500/20 border border-cyan-400/50 shadow-[0_0_10px_rgba(6,182,212,0.2)] transition-all hover:bg-cyan-500/30">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-star text-amber-400 text-xs"></i>
-                        <span class="font-bold text-cyan-200 text-xs">Standard</span>
-                    </div>
-                    <p class="text-[11px] text-slate-300 mt-0.5 pl-5">2048 with powerups</p>
-                </a>
+            <h2 class="cyber-title text-xl font-bold text-cyan-400 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-book-open text-fuchsia-400"></i> GAME RULES
+            </h2>
 
-                <a href="#" class="block p-2.5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/40 transition-all">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-table-cells text-slate-400 text-xs"></i>
-                        <span class="font-semibold text-slate-200 text-xs">Classic</span>
+            <div class="space-y-3 text-slate-300 text-xs leading-relaxed mb-6">
+                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800/80 flex items-start gap-2.5">
+                    <i class="fa-solid fa-gamepad text-amber-400 text-sm mt-0.5"></i>
+                    <div>
+                        <strong class="text-pink-400 block mb-0.5">HOW TO PLAY</strong>
+                        Use arrow keys or touch buttons to slide tiles across the board.
                     </div>
-                    <p class="text-[11px] text-slate-400 mt-0.5 pl-5">The original 2048, no undo</p>
-                </a>
+                </div>
 
-                <a href="#" class="block p-2.5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/40 transition-all">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-flag text-slate-400 text-xs"></i>
-                        <span class="font-semibold text-slate-200 text-xs">Tutorial</span>
+                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800/80 flex items-start gap-2.5">
+                    <i class="fa-solid fa-object-group text-cyan-400 text-sm mt-0.5"></i>
+                    <div>
+                        <strong class="text-cyan-400 block mb-0.5">MERGE TILES</strong>
+                        When two tiles with the same number touch, they combine into one!
                     </div>
-                    <p class="text-[11px] text-slate-400 mt-0.5 pl-5">Learn how to play 2048</p>
-                </a>
+                </div>
 
-                <a href="#" class="block p-2.5 rounded-xl bg-gradient-to-r from-fuchsia-950/40 to-pink-950/40 border border-fuchsia-500/40 hover:border-fuchsia-400 transition-all">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-crown text-pink-400 text-xs"></i>
-                        <span class="font-bold text-pink-300 text-xs">Plus</span>
+                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800/80 flex items-start gap-2.5">
+                    <i class="fa-solid fa-trophy text-fuchsia-400 text-sm mt-0.5"></i>
+                    <div>
+                        <strong class="text-fuchsia-400 block mb-0.5">WINNING</strong>
+                        Keep merging tiles to build up your score and reach the <span class="text-cyan-300 font-bold">2048</span> tile!
                     </div>
-                    <p class="text-[11px] text-slate-400 mt-0.5 pl-5">Bonus powerups and dark board!<br><span class="text-[9px] text-pink-400/80">Available until December.</span></p>
-                </a>
-
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-x-2 gap-y-1.5 py-3 border-t border-slate-800 text-[11px] text-slate-400">
-                <a href="#" class="hover:text-cyan-400 transition-colors">Give Feedback</a>
-                <a href="#" class="hover:text-cyan-400 transition-colors">Get the App</a>
-                <a href="#" class="hover:text-cyan-400 transition-colors">Privacy Policy</a>
-                <a href="#" class="hover:text-cyan-400 transition-colors">Privacy Settings</a>
-                <a href="#" class="hover:text-cyan-400 transition-colors">About</a>
-                <a href="#" class="hover:text-cyan-400 transition-colors">Game not working?</a>
-                <a href="#" class="hover:text-cyan-400 transition-colors">Play Solitaire</a>
-                <a href="#" class="hover:text-cyan-400 transition-colors">Play Card Games</a>
-            </div>
-
-            <div class="mt-2 pt-2 border-t border-slate-800/80 text-center">
-                <a href="#" class="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 hover:text-cyan-300 transition-colors py-1.5 px-3 rounded-lg bg-cyan-950/40 border border-cyan-500/30 w-full justify-center">
-                    <span>Go to the old 2048</span>
-                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                </a>
-            </div>
-
-            <button id="got-it-btn" onclick="closeRules()" class="w-full mt-3 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-fuchsia-500 font-bold text-xs tracking-wider uppercase text-slate-950 hover:brightness-110 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+            <button id="got-it-btn" onclick="closeRules()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-fuchsia-500 font-bold text-xs tracking-wider uppercase text-slate-950 hover:brightness-110 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">
                 GOT IT
             </button>
         </div>
