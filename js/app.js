@@ -1,4 +1,4 @@
-import {getGrid , endGame , moveLeftAll , moveRightAll , moveUpAll , moveDownAll , getScore , getBestScore , ResetGame  } from "./game.js";
+import {getGrid , endGame , moveLeftAll , moveRightAll , moveUpAll , moveDownAll , getScore , getBestScore} from "./game.js";
 let upBtn = document.getElementById("btn-up");
 let rightBtn = document.getElementById("btn-right");
 let leftBtn = document.getElementById("btn-left");
@@ -45,7 +45,8 @@ downtBtn.addEventListener("click" , () =>{
     render();
 });
 restartBtn.addEventListener("click" , () =>{
-    ResetGame();
+    endGame();
+    window.location.reload();
     render();
 });
 rulesBtn.addEventListener("click" , () =>{
@@ -57,7 +58,9 @@ gotItBtn.addEventListener("click" , () =>{
 closeRulesBtn.addEventListener("click" , () =>{
     rulesModal.classList.add("hidden");
 });
-
+document.addEventListener("DOMContentLoaded" , () =>{
+    render();
+});
 function render(){  
     let gridCells = document.querySelectorAll(".grid-cell");
         let gridFromApp = getGrid();
@@ -77,11 +80,11 @@ function render(){
     score.innerText = getScore();
     bestScore.innerText = getBestScore();
     animationTiles();
-} render();
+}
 function tileStyle(element , cell){
-    element.style.display = "flex";
-    element.style.justifyContent  = "center";
-    element.style.alignItems  = "center";
+        element.style.display = "flex";
+        element.style.justifyContent  = "center";
+        element.style.alignItems  = "center";
     element.classList.forEach(className => {
         if(className.startsWith("tile-")){
             element.classList.remove(className)
