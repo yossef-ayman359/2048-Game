@@ -126,7 +126,8 @@ function setRandomCell(num = 1, isInit = false) {
 export function endGame() {            // used by user (reset game)
     grid.forEach(row => row.fill(0));
     score = 0;
-    localStorage.setItem('bestScore', bestScore)
+    removeHistory();
+    localStorage.setItem('bestScore', bestScore);
 }
 
 function isWin() {
@@ -166,6 +167,11 @@ function saveState() {
     gridHistory = gridHistory.slice(0, historyIndex + 1);
     gridHistory.push(grid.map(row => [...row]));
     historyIndex = gridHistory.length - 1;
+}
+
+function removeHistory() {
+    gridHistory = [];
+    historyIndex = -1;
 }
 
 export function undo() {       // used by user (undo Button)
