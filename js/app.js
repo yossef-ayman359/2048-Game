@@ -91,6 +91,7 @@ soundBtn.addEventListener("click", () => {
     } else if (soundIcon.classList.contains("fa-volume-xmark")) {
         setTimeout(() => {
             backgroundSound.muted = false;
+            backgroundSound.play();
         }, 100);
         soundIcon.classList.remove("fa-volume-xmark");
         soundIcon.classList.add("fa-volume-high");
