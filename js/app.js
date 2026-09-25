@@ -7,7 +7,9 @@ import {
     moveDownAll,
     getScore,
     getBestScore,
-    setup
+    setup,
+    undo,
+    redo,
 } from "./game.js";
 
 let backgroundSound = new Audio(
@@ -27,6 +29,8 @@ let rulesBtn = document.getElementById("rules-btn");
 let gotItBtn = document.getElementById("got-it-btn");
 let closeRulesBtn = document.getElementById("close-rules-btn");
 let soundBtn = document.getElementById("sound-btn");
+let undoBtn = document.getElementById("undo-btn");
+let redoBtn = document.getElementById("redo-btn");
 
 let score = document.getElementById("score");
 let bestScore = document.getElementById("best-score");
@@ -91,6 +95,14 @@ soundBtn.addEventListener("click", () => {
         soundIcon.classList.remove("fa-volume-xmark");
         soundIcon.classList.add("fa-volume-high");
     }
+});
+undoBtn.addEventListener('click', () => {
+    undo();
+    render();
+});
+redoBtn.addEventListener('click', () => {
+    redo();
+    render();
 });
 
 document.addEventListener("DOMContentLoaded", () => {
