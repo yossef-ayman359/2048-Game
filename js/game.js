@@ -90,7 +90,7 @@ function unitTest(callback, expected, mode) {
         const callbackArr = callback([...testCases[i]], true);
 
         if (JSON.stringify(callbackArr) != JSON.stringify(expectedArr)) {
-            console.log(`\t\t Test #${i + 1} ${ mode } Fail`);
+            console.log(`\t\t Test #${i + 1} ${mode} Fail`);
             console.log('test    ', testCases[i]);
             console.log('expected', expectedArr);
             console.log('callback', callbackArr);
@@ -100,7 +100,7 @@ function unitTest(callback, expected, mode) {
 }
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ end move or game ـــــــــــــــــــــــــــــــــــــــــــــــ
-function setRandomCell(num = 1, isInit = false) {   
+function setRandomCell(num = 1, isInit = false) {
     let emptyCells = [];
 
     for (let r = 0; r < 4; ++r) {
@@ -115,7 +115,7 @@ function setRandomCell(num = 1, isInit = false) {
         return;
     }
 
-    while (num-- && emptyCells.length > 0) {   
+    while (num-- && emptyCells.length > 0) {
         const randomIndex = Math.floor(Math.random() * emptyCells.length);
         const { row, col } = emptyCells[randomIndex];
         grid[row][col] = isInit ? 2 : (Math.random() < 0.9 ? 2 : 4);
@@ -197,9 +197,9 @@ function handleMove(moveFunction) {
     }
 }
 
-function moveArrowRight(row, isTest = false) {    
+function moveArrowRight(row, isTest = false) {
     row = row.filter(v => v !== 0);
-    
+
     for (let i = row.length - 1; i >= 0; --i) {
         if (row[i] === row[i - 1]) {
             row[i] += row[i - 1];
@@ -208,7 +208,7 @@ function moveArrowRight(row, isTest = false) {
             // console.log('Right', row);
         }
     }
-    
+
     row = row.filter(v => v !== 0);
     while (4 - row.length) {
         row.unshift(0);
@@ -220,7 +220,7 @@ unitTest(moveArrowRight, expectedRight, 'Right');
 
 function moveArrowLeft(row, isTest = false) {
     row = row.filter(v => v !== 0);
-    
+
     for (let i = 0; i < row.length - 1; ++i) {
         if (row[i] === row[i + 1]) {
             row[i] += row[i + 1];
@@ -288,27 +288,27 @@ export function moveDownAll() {       // used by user (arrow down)
     });
 }
 
-console.log('Score: ', score, ' Best: ', bestScore, '\tinit');
-console.table(grid);
-
-moveUpAll();
-console.log('Score: ', score, ' Best: ', bestScore, '\tUP');
-console.table(grid);
-
-moveRightAll();
-console.log('Score: ', score, ' Best: ', bestScore, '\tRIGHT');
-console.table(grid);
-
-moveDownAll();
-console.log('Score: ', score, ' Best: ', bestScore, '\tDOWN');
-console.table(grid);
-
-moveLeftAll();
-console.log('Score: ', score, ' Best: ', bestScore, '\tLEFT');
-console.table(grid);
-
 /*
     [2, 2, 2, 0]
     left:   [4, 2, 0, 0] ✔✔
     Right:  [0, 0, 2, 4] ✔✔
 */
+
+// console.log('Score: ', score, ' Best: ', bestScore, '\tinit');
+// console.table(grid);
+
+// moveUpAll();
+// console.log('Score: ', score, ' Best: ', bestScore, '\tUP');
+// console.table(grid);
+
+// moveRightAll();
+// console.log('Score: ', score, ' Best: ', bestScore, '\tRIGHT');
+// console.table(grid);
+
+// moveDownAll();
+// console.log('Score: ', score, ' Best: ', bestScore, '\tDOWN');
+// console.table(grid);
+
+// moveLeftAll();
+// console.log('Score: ', score, ' Best: ', bestScore, '\tLEFT');
+// console.table(grid);

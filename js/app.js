@@ -1,4 +1,21 @@
-import { getGrid, endGame, moveLeftAll, moveRightAll, moveUpAll, moveDownAll, getScore, getBestScore, setup } from "./game.js";
+import {
+    getGrid,
+    endGame,
+    moveLeftAll,
+    moveRightAll,
+    moveUpAll,
+    moveDownAll,
+    getScore,
+    getBestScore,
+} from "./game.js";
+
+let backgroundSound = new Audio(
+    "https://raw.githubusercontent.com/khaled1955/mouth-sound/main/mouth%20sound%2026min.mp3",
+);
+
+setTimeout(() => {
+    backgroundSound.play();
+}, 500);
 
 let upBtn = document.getElementById("btn-up");
 let rightBtn = document.getElementById("btn-right");
@@ -8,16 +25,17 @@ let restartBtn = document.getElementById("restart-btn");
 let rulesBtn = document.getElementById("rules-btn");
 let gotItBtn = document.getElementById("got-it-btn");
 let closeRulesBtn = document.getElementById("close-rules-btn");
+let soundBtn = document.getElementById("sound-btn");
 
 let score = document.getElementById("score");
 let bestScore = document.getElementById("best-score");
 let rulesModal = document.getElementById("rules-modal");
-
+let soundIcon = document.getElementById("sound-icon");
 
 document.addEventListener("keydown", (event) => {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
-        event.preventDefault(); 
-        
+        event.preventDefault();
+
         if (event.key === "ArrowUp") {
             moveUpAll();
         } else if (event.key === "ArrowRight") {
@@ -30,7 +48,6 @@ document.addEventListener("keydown", (event) => {
         render();
     }
 });
-
 upBtn.addEventListener("click", () => {
     moveUpAll();
     render();
@@ -61,12 +78,25 @@ gotItBtn.addEventListener("click", () => {
 closeRulesBtn.addEventListener("click", () => {
     rulesModal.classList.add("hidden");
 });
+soundBtn.addEventListener("click", () => {
+    if (soundIcon.classList.contains("fa-volume-high")) {
+        backgroundSound.muted = true;
+        soundIcon.classList.remove("fa-volume-high");
+        soundIcon.classList.add("fa-volume-xmark");
+    } else if (soundIcon.classList.contains("fa-volume-xmark")) {
+        setTimeout(() => {
+            backgroundSound.muted = false;
+        }, 100);
+        soundIcon.classList.remove("fa-volume-xmark");
+        soundIcon.classList.add("fa-volume-high");
+    }
+});
 
 document.addEventListener("DOMContentLoaded", () => {
     render();
 });
 
-function render() {  
+function render() {
     let gridCells = document.querySelectorAll(".grid-cell");
     let gridFromApp = getGrid();
     let index = 0;
@@ -82,7 +112,7 @@ function render() {
             index++;
         }
     }
-    
+
     score.innerText = getScore();
     bestScore.innerText = getBestScore();
     animationTiles();
@@ -93,15 +123,16 @@ function tileStyle(element, cell) {
     element.style.justifyContent = "center";
     element.style.alignItems = "center";
 
-    element.className = "grid-cell rounded-lg transition-all duration-100 ease-in-out";
+    element.className =
+        "grid-cell rounded-lg transition-all duration-100 ease-in-out";
 
     if (cell !== 0) {
         element.classList.add(
-            'tile',
+            "tile",
             `tile-${cell}`,
-            'font-bold',
-            'text-2xl',
-            'sm:text-3xl'
+            "font-bold",
+            "text-2xl",
+            "sm:text-3xl",
         );
     }
 }
@@ -109,7 +140,7 @@ function tileStyle(element, cell) {
 function animationTiles() {
     let gridCells = document.querySelectorAll(".grid-cell");
 
-    gridCells.forEach(cell => {
+    gridCells.forEach((cell) => {
         cell.classList.add("tile-animation");
 
         setTimeout(() => {
