@@ -7,6 +7,7 @@ import {
     moveDownAll,
     getScore,
     getBestScore,
+    setup
 } from "./game.js";
 
 let backgroundSound = new Audio(
